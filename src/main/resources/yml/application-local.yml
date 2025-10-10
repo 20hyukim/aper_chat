@@ -1,0 +1,58 @@
+server:
+  port: 8082
+
+spring:
+  config:
+    import:
+      - classpath:/yml/application-secret.yml
+    activate:
+      on-profile: local
+
+  datasource:
+    url: ${local.mysql.url}
+    username: ${local.mysql.username}
+    password: ${local.mysql.password}
+    driver-class-name: ${local.mysql.driver-class-name}
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ${local.rabbitmq.username}
+    password: ${local.rabbitmq.password}
+    relay-host: ${local.rabbitmq.relay-host}
+
+mongodb:
+  uri: ${local.mongodb.uri}
+
+spring.jpa:
+  hibernate:
+    ddl-auto: update
+  show-sql: true
+
+
+secret:
+  key:
+    access: ${jwt.secret.key.access}
+    refresh: ${jwt.secret.key.refresh}
+
+springdoc:
+  swagger-ui:
+    path: ${local.swagger.path}
+
+  api-docs:
+    path: ${local.swagger.api-docs}
+
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+  paths-to-match:
+    - ${local.swagger.match}
+
+
+logging:
+  level:
+    org:
+      springframework:
+        messaging:
+          simp:
+            stomp: DEBUG
