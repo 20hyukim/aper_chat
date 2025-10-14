@@ -1,0 +1,48 @@
+spring:
+  config:
+    import:
+      - classpath:/yml/application-secret.yml
+    activate:
+      on-profile: dev
+
+  main:
+    banner-mode: off
+
+  rabbitmq:
+    host: ${dev.rabbitmq.host}
+    port: ${dev.rabbitmq.port}
+    username: ${dev.rabbitmq.username}
+    password: ${dev.rabbitmq.password}
+    relay-host: ${dev.rabbitmq.relay-host}
+
+  datasource:
+    url: ${dev.mysql.url}
+    username: ${dev.mysql.username}
+    password: ${dev.mysql.password}
+    driver-class-name: ${dev.mysql.driver-class-name}
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: ${dev.mysql.dialect}
+
+springdoc:
+  swagger-ui:
+    path: ${dev.swagger.path}
+
+  api-docs:
+    path: ${dev.swagger.api-docs}
+
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+  paths-to-match:
+    - ${dev.swagger.match}
+
+mongodb:
+  uri: ${dev.mongodb.uri}
+
+secret:
+  key:
+    access: ${jwt.secret.key.access}
+    refresh: ${jwt.secret.key.refresh}
