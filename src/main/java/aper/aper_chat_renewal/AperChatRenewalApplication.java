@@ -2,10 +2,15 @@ package aper.aper_chat_renewal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@ComponentScan(basePackages = {"aper.aper_chat_renewal", "com.aperlibrary"})
 @SpringBootApplication
+@EntityScan(basePackages = {
+        "aper.aper_chat_renewal.entity",
+        "com.aperlibrary"
+})
+@EnableJpaRepositories(basePackages = "aper.aper_chat_renewal.repository")
 public class AperChatRenewalApplication {
 
     public static void main(String[] args) {

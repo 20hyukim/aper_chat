@@ -10,12 +10,12 @@ import java.util.List;
 
 @Getter
 public class CreateChatRoomRequest {
-    @NotBlank
+    @NotBlank(message = "Room name is required")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Room type is required")
     private ChatRoomType type;
 
-    @NotEmpty
-    private List<String> memberIds;
+    @NotEmpty(message = "At least one member is required")
+    private List<Long> memberIds;
 }
