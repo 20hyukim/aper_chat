@@ -2,6 +2,8 @@ package aper.aper_chat_renewal.service;
 
 import aper.aper_chat_renewal.dto.request.CreateChatRoomRequest;
 import aper.aper_chat_renewal.dto.response.ChatRoomResponse;
+import aper.aper_chat_renewal.exception.BusinessException;
+import aper.aper_chat_renewal.exception.ErrorCode;
 import aper.aper_chat_renewal.repository.ChatRoomMemberRepository;
 import aper.aper_chat_renewal.repository.ChatRoomRepository;
 import aper.aper_chat_renewal.repository.UserRepository;
@@ -27,7 +29,8 @@ public class ChatRoomService {
 
     public ChatRoomResponse createChatRoom(CreateChatRoomRequest request, Long creatorId) {
         User creator = userRepository.findById(creatorId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found: " + creatorId));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND,
+                                                        ErrorCode.USER_NOT_FOUND.getMessage() + " : " + creatorId));
 
         // Create chat room
         ChatRoom chatRoom = ChatRoom.builder()
@@ -45,7 +48,8 @@ public class ChatRoomService {
         // Add invited members
         for (Long memberId : request.getMemberIds()) {
             User member = userRepository.findById(memberId)
-                    .orElseThrow(() -> new IllegalArgumentException("User not found: " + memberId));
+                    .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND,
+                    ErrorCode.USER_NOT_FOUND.getMessage() + " : " + creatorId));
             addMember(chatRoom, member, false);
         }
 
