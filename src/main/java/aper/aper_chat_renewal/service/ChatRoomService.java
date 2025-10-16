@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -27,17 +28,18 @@ public class ChatRoomService {
     private final UserRepository userRepository;
 
 
-    public ChatRoomResponse createChatRoom(CreateChatRoomRequest request, Long creatorId) {
-        User creator = userRepository.findById(creatorId)
+    @Transactional
+    public ChatRoomResponse createChatRoom(CreateChatRoomRequest request, Long userId) {
+        User creator = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND,
-                                                        ErrorCode.USER_NOT_FOUND.getMessage() + " : " + creatorId));
-
+                                                        ErrorCode.USER_NOT_FOUND.getMessage() + " : " + userId));
+        
         // Create chat room
         ChatRoom chatRoom = ChatRoom.builder()
                 .roomId(UUID.randomUUID().toString())
                 .name(request.getName())
                 .type(request.getType())
-                .memberCount(request.getMemberIds().size() + 1) // Including creator
+                .memberCount(request.getMemberIds().size() + 1)
                 .build();
 
         chatRoom = chatRoomRepository.save(chatRoom);
@@ -45,11 +47,9 @@ public class ChatRoomService {
         // Add creator as member
         addMember(chatRoom, creator, true);
 
-        // Add invited members
         for (Long memberId : request.getMemberIds()) {
             User member = userRepository.findById(memberId)
-                    .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND,
-                    ErrorCode.USER_NOT_FOUND.getMessage() + " : " + creatorId));
+                    .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, ErrorCode.USER_NOT_FOUND.getMessage() + " : " + memberId));
             addMember(chatRoom, member, false);
         }
 
@@ -61,6 +61,8 @@ public class ChatRoomService {
                 .chatRoom(chatRoom)
                 .user(user)
                 .role(MemberRole.valueOf(isOwner ? "OWNER" : "MEMBER"))
+                .joinedAt(LocalDateTime.now())
+                .notificationEnabled(true)
                 .build();
 
         chatRoomMemberRepository.save(member);
