@@ -17,7 +17,7 @@ public interface UserReadTrackingRepository extends JpaRepository<UserReadTracki
 
     // 특정 사용자의 여러 채팅방 읽음 상태 한번에 조회 (N+1 방지)
     @Query("SELECT urt FROM UserReadTracking urt " +
-            "WHERE urt.user.id = :userId " +
+            "WHERE urt.user.userId = :userId " +
             "AND urt.chatRoom.id IN :chatRoomIds")
     List<UserReadTracking> findByUserIdAndChatRoomIdIn(@Param("userId") Long userId,
                                                        @Param("chatRoomIds") List<Long> chatRoomIds);
