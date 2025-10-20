@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoom,Long> {
@@ -21,4 +22,15 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom,Long> {
     @Query("UPDATE ChatRoom cr SET cr.lastMessageAt = :messageTime WHERE cr.id = :chatRoomId")
     void updateLastMessageAt(@Param("chatRoomId") Long chatRoomId, 
                             @Param("messageTime") LocalDateTime messageTime);
+
+
+    @Query("""
+    SELECT DISTINCT cr FROM ChatRoom cr
+    JOIN cr.members m
+    WHERE m.user.userId = :userId
+    ORDER BY cr.updatedAt DESC
+    """)
+    List<ChatRoom> findRecentChatRooms(@Param("userId") Long userId);
+
+    Optional<ChatRoom> getChatRoomById(Long chatRoomId);
 }
