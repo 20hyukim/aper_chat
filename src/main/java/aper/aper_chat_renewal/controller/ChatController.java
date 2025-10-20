@@ -26,10 +26,15 @@ public class ChatController {
     }
 
     @GetMapping("/rooms")
-    public ResponseEntity<List<ChatRoomResponse>> getChatRooms(
-            @RequestHeader("userId") Long userId) {
+    public ResponseEntity<List<ChatRoomResponse>> getChatRooms( @RequestHeader("userId") Long userId ) {
         List<ChatRoomResponse> responses = chatRoomService.getChatRoomsForUser(userId);
         return ResponseEntity.ok(responses);
+    }
+
+    @DeleteMapping("/rooms/{chatRoomId}")
+    public ResponseEntity<Void> deleteChatRoom( @PathVariable("chatRoomId") Long chatRoomId ) {
+        chatRoomService.deleteChatRoom(chatRoomId);
+        return ResponseEntity.noContent().build();
     }
 
 }
