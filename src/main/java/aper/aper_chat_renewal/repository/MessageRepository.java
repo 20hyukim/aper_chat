@@ -1,5 +1,6 @@
 package aper.aper_chat_renewal.repository;
 
+import com.aperlibrary.chat.entity.ChatRoom;
 import com.aperlibrary.chat.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +33,24 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
     // 채팅방의 전체 메시지 개수
     @Query("SELECT COUNT(m) FROM Message m WHERE m.chatRoom.id = :chatRoomId")
     Integer countByChatRoomId(@Param("chatRoomId") Long chatRoomId);
+
+    @Query("""
+        SELECT m FROM Message m
+        WHERE m.chatRoom IN :chatRooms
+        AND m.id IN (
+            SELECT MAX(m2.id) FROM Message m2
+            WHERE m2.chatRoom IN :chatRooms
+            GROUP BY m2.chatRoom
+        )
+    """)
+    List<Message> findLatestMessagesByChatRooms(List<ChatRoom> chatRooms);
+
+    Message findByChatRoom(ChatRoom chatRoom);
+
+    @Query("""
+        SELECT m FROM Message m
+        WHERE m.chatRoom = :chatRoom
+        ORDER BY m.createdAt DESC
+    """)
+    Message findLatestMessage(@Param("chatRoom") ChatRoom chatRoom);
 }

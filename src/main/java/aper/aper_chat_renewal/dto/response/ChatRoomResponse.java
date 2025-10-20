@@ -3,6 +3,7 @@ package aper.aper_chat_renewal.dto.response;
 import com.aperlibrary.chat.constant.ChatRoomType;
 import com.aperlibrary.chat.entity.ChatRoom;
 import com.aperlibrary.chat.entity.Message;
+import com.aperlibrary.chat.entity.UserReadTracking;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,7 +37,7 @@ public class ChatRoomResponse {
         this.unreadCount = unreadCount;
     }
 
-    public static ChatRoomResponse from(ChatRoom chatRoom, Message lastMessage, Integer unreadCount) {
+    public static ChatRoomResponse from(ChatRoom chatRoom, Message message, Integer unreadCount) {
         return ChatRoomResponse.builder()
                 .id(chatRoom.getId())
                 .roomId(chatRoom.getRoomId())
@@ -44,9 +45,9 @@ public class ChatRoomResponse {
                 .type(chatRoom.getType())
                 .memberCount(chatRoom.getMemberCount())
                 .createdAt(chatRoom.getCreatedAt())
-                .lastMessage(lastMessage != null ? lastMessage.getContent() : null)
-                .lastMessageAt(lastMessage != null ? lastMessage.getCreatedAt() : null)
-                .lastMessageSenderName(lastMessage != null ? lastMessage.getSender().getPenName() : null)
+                .lastMessage(message != null ? message.getContent() : "")
+                .lastMessageAt(message != null ? message.getCreatedAt() : null)
+                .lastMessageSenderName(message != null ? message.getSender().getPenName() : "")
                 .unreadCount(unreadCount != null ? unreadCount : 0)
                 .build();
     }

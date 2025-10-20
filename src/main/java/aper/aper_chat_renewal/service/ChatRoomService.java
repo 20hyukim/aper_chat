@@ -1,35 +1,27 @@
 package aper.aper_chat_renewal.service;
 
 import aper.aper_chat_renewal.domain.factory.ChatRoomFactory;
-import aper.aper_chat_renewal.domain.policy.ChatRoomPolicy;
 import aper.aper_chat_renewal.domain.policy.UserPolicy;
-import aper.aper_chat_renewal.domain.query.ChatRoomQueryHelper;
-import aper.aper_chat_renewal.domain.query.ChatRoomQueryResult;
+import aper.aper_chat_renewal.domain.query.UnreadCountCalculator;
 import aper.aper_chat_renewal.dto.request.CreateChatRoomRequest;
 import aper.aper_chat_renewal.dto.response.ChatRoomResponse;
 import aper.aper_chat_renewal.dto.response.CreatedChatRoomResponse;
-import aper.aper_chat_renewal.exception.BusinessException;
-import aper.aper_chat_renewal.exception.ErrorCode;
-import aper.aper_chat_renewal.repository.*;
-import aper.aper_chat_renewal.service.mapper.ChatRoomResponseMapper;
-import com.aperlibrary.chat.constant.MemberRole;
+import aper.aper_chat_renewal.repository.ChatRoomMemberRepository;
+import aper.aper_chat_renewal.repository.ChatRoomRepository;
+import aper.aper_chat_renewal.repository.MessageRepository;
+import aper.aper_chat_renewal.repository.UserReadTrackingRepository;
 import com.aperlibrary.chat.entity.ChatRoom;
 import com.aperlibrary.chat.entity.ChatRoomMember;
 import com.aperlibrary.chat.entity.Message;
 import com.aperlibrary.chat.entity.UserReadTracking;
 import com.aperlibrary.user.entity.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,10 +33,9 @@ public class ChatRoomService {
     private final MessageRepository messageRepository;
     private final UserReadTrackingRepository userReadTrackingRepository;
 
-    private final ChatRoomQueryHelper queryHelper;
+    private final UnreadCountCalculator unreadCountCalculator;
     private final UserPolicy userPolicy;
     private final ChatRoomFactory chatRoomFactory;
-    private final ChatRoomResponseMapper responseMapper;
     // TODO: Redis 캐시 적용
 
     @Transactional
@@ -69,12 +60,24 @@ public class ChatRoomService {
     }
 
     // 사용자의 채팅방 목록 조회 - 최근 메시지 시간순, 읽지 않은 메시지 수 포함
+    // TODO: n+1 문제 생각 필요
     public List<ChatRoomResponse> getChatRoomsForUser(Long userId) {
         userPolicy.validateUserExists(userId);
 
-        ChatRoomQueryResult queryResult = queryHelper.fetchChatRoomData(userId);
+        List<ChatRoom> chatRooms = chatRoomRepository.findRecentChatRooms(userId);
+        List<ChatRoomResponse> chatRoomResponses = new ArrayList<>();
 
-        return responseMapper.toResponses(queryResult);
+        for (ChatRoom chatRoom : chatRooms) {
+            Message message = messageRepository.findLatestMessage(chatRoom);
+
+            UserReadTracking tracking = userReadTrackingRepository.findByUserUserIdAndChatRoom(userId, chatRoom);
+            Integer unreadCount = unreadCountCalculator.calculate(chatRoom.getId(), tracking, message);
+
+            ChatRoomResponse chatRoomResponse = ChatRoomResponse.from(chatRoom, message, unreadCount);
+            chatRoomResponses.add(chatRoomResponse);
+        }
+
+        return chatRoomResponses;
     }
 
 
