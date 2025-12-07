@@ -63,7 +63,6 @@ public class ChatRoomService {
 
     // 사용자의 채팅방 목록 조회 - 최근 메시지 시간순, 읽지 않은 메시지 수 포함
     // TODO: n+1 문제 생각 필요
-    // TODO: delete된 chatRoom 반환하지 않도록 처리
     public List<ChatRoomResponse> getChatRoomsForUser(Long userId) {
         userPolicy.validateUserExists(userId);
 

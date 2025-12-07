@@ -15,8 +15,8 @@ public class TestSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/test/**").permitAll()  // Allow test endpoints without auth
-                .requestMatchers("/api/**").permitAll()   // Allow API endpoints for testing
+                .requestMatchers("/chat/test/**").permitAll()  // Allow test endpoints without auth
+                .requestMatchers("/chat/**").permitAll()   // Allow API endpoints for testing
                 .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf.disable());  // Disable CSRF for testing
