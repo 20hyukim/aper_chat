@@ -36,8 +36,8 @@ configurations.all {
 }
 
 dependencies {
-    // submodule
-    implementation project(':libs:aper-library')
+    // aper-submodule (Composite Build)
+    implementation 'com.aper.submodule:gateway-common:0.0.1-SNAPSHOT'
 
     // spring boot
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

@@ -1,6 +1,6 @@
 package aper.aper_chat_renewal.dto.request;
 
-import com.aperlibrary.chat.constant.MessageType;
+import aper.aper_chat_renewal.entity.constant.MessageType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

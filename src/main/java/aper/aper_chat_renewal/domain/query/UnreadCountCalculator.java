@@ -1,8 +1,8 @@
 package aper.aper_chat_renewal.domain.query;
 
+import aper.aper_chat_renewal.entity.Message;
+import aper.aper_chat_renewal.entity.UserReadTracking;
 import aper.aper_chat_renewal.repository.MessageRepository;
-import com.aperlibrary.chat.entity.Message;
-import com.aperlibrary.chat.entity.UserReadTracking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

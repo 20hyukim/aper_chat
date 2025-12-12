@@ -2,8 +2,8 @@ package aper.aper_chat_renewal.domain.factory;
 
 import aper.aper_chat_renewal.domain.policy.ChatRoomPolicy;
 import aper.aper_chat_renewal.dto.request.CreateChatRoomRequest;
-import com.aperlibrary.chat.constant.ChatRoomType;
-import com.aperlibrary.chat.entity.ChatRoom;
+import aper.aper_chat_renewal.entity.ChatRoom;
+import aper.aper_chat_renewal.entity.constant.ChatRoomType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,8 @@
 package aper.aper_chat_renewal.dto.response;
 
-import com.aperlibrary.chat.constant.ChatRoomType;
-import com.aperlibrary.chat.entity.ChatRoom;
-import com.aperlibrary.chat.entity.Message;
-import com.aperlibrary.chat.entity.UserReadTracking;
+import aper.aper_chat_renewal.entity.ChatRoom;
+import aper.aper_chat_renewal.entity.Message;
+import aper.aper_chat_renewal.entity.constant.ChatRoomType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,7 +46,7 @@ public class ChatRoomResponse {
                 .createdAt(chatRoom.getCreatedAt())
                 .lastMessage(message != null ? message.getContent() : "")
                 .lastMessageAt(message != null ? message.getCreatedAt() : null)
-                .lastMessageSenderName(message != null ? message.getSender().getPenName() : "")
+                .lastMessageSenderName(message != null ? message.getSenderName() : "")
                 .unreadCount(unreadCount != null ? unreadCount : 0)
                 .build();
     }

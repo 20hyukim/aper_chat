@@ -1,3 +1,6 @@
 [submodule "libs/aper-library"]
 	path = libs/aper-library
 	url = https://github.com/team-aper/aper-library.git
+[submodule "aper-submodule"]
+	path = aper-submodule
+	url = https://github.com/team-aper/aper-submodule.git

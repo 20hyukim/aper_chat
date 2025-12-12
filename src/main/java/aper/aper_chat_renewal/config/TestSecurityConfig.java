@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class TestSecurityConfig {
 
-    // TODO: 프로덕션 환경에서는 제거 필요.
+    // TODO: 프로덕션 환경에서는 제거 필요. -> test ..? || 재고 필요.
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
