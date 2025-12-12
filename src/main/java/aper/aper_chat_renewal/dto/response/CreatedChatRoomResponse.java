@@ -1,7 +1,7 @@
 package aper.aper_chat_renewal.dto.response;
 
-import com.aperlibrary.chat.constant.ChatRoomType;
-import com.aperlibrary.chat.entity.ChatRoom;
+import aper.aper_chat_renewal.entity.ChatRoom;
+import aper.aper_chat_renewal.entity.constant.ChatRoomType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

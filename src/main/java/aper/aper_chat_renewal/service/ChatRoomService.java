@@ -7,15 +7,11 @@ import aper.aper_chat_renewal.domain.query.UnreadCountCalculator;
 import aper.aper_chat_renewal.dto.request.CreateChatRoomRequest;
 import aper.aper_chat_renewal.dto.response.ChatRoomResponse;
 import aper.aper_chat_renewal.dto.response.CreatedChatRoomResponse;
+import aper.aper_chat_renewal.entity.*;
 import aper.aper_chat_renewal.repository.ChatRoomMemberRepository;
 import aper.aper_chat_renewal.repository.ChatRoomRepository;
 import aper.aper_chat_renewal.repository.MessageRepository;
 import aper.aper_chat_renewal.repository.UserReadTrackingRepository;
-import com.aperlibrary.chat.entity.ChatRoom;
-import com.aperlibrary.chat.entity.ChatRoomMember;
-import com.aperlibrary.chat.entity.Message;
-import com.aperlibrary.chat.entity.UserReadTracking;
-import com.aperlibrary.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,7 +59,6 @@ public class ChatRoomService {
 
     // 사용자의 채팅방 목록 조회 - 최근 메시지 시간순, 읽지 않은 메시지 수 포함
     // TODO: n+1 문제 생각 필요
-    // TODO: delete된 chatRoom 반환하지 않도록 처리
     public List<ChatRoomResponse> getChatRoomsForUser(Long userId) {
         userPolicy.validateUserExists(userId);
 

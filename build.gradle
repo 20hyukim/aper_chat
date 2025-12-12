@@ -10,7 +10,7 @@ description = 'aper_chat_renewal'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -24,9 +24,20 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    bytebuddyVersion = '1.15.11'
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "net.bytebuddy:byte-buddy:${bytebuddyVersion}"
+        force "net.bytebuddy:byte-buddy-agent:${bytebuddyVersion}"
+    }
+}
+
 dependencies {
-    // submodule
-    implementation project(':libs:aper-library')
+    // aper-submodule (Composite Build)
+    implementation 'com.aper.submodule:gateway-common:0.0.1-SNAPSHOT'
 
     // spring boot
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -43,8 +54,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // mysql
-    implementation 'mysql:mysql-connector-java:8.0.33'
+    // mysql (updated to latest connector)
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     // websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'

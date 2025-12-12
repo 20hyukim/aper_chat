@@ -1,6 +1,6 @@
 package aper.aper_chat_renewal.dto.response;
 
-import com.aperlibrary.chat.constant.MessageType;
+import aper.aper_chat_renewal.entity.constant.MessageType;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -10,13 +10,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class TestSecurityConfig {
 
-    // TODO: 프로덕션 환경에서는 제거 필요.
+    // TODO: 프로덕션 환경에서는 제거 필요. -> test ..? || 재고 필요.
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/test/**").permitAll()  // Allow test endpoints without auth
-                .requestMatchers("/api/**").permitAll()   // Allow API endpoints for testing
+                .requestMatchers("/chat/test/**").permitAll()  // Allow test endpoints without auth
+                .requestMatchers("/chat/**").permitAll()   // Allow API endpoints for testing
                 .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf.disable());  // Disable CSRF for testing

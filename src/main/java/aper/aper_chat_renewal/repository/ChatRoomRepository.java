@@ -1,6 +1,6 @@
 package aper.aper_chat_renewal.repository;
 
-import com.aperlibrary.chat.entity.ChatRoom;
+import aper.aper_chat_renewal.entity.ChatRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

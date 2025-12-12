@@ -1,9 +1,9 @@
 package aper.aper_chat_renewal.domain.policy;
 
+import aper.aper_chat_renewal.entity.ChatRoom;
 import aper.aper_chat_renewal.exception.BusinessException;
 import aper.aper_chat_renewal.exception.ErrorCode;
 import aper.aper_chat_renewal.repository.ChatRoomRepository;
-import com.aperlibrary.chat.entity.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

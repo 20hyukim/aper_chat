@@ -1,14 +1,13 @@
 package aper.aper_chat_renewal.repository;
 
-import com.aperlibrary.chat.entity.ChatRoom;
-import com.aperlibrary.chat.entity.UserReadTracking;
+import aper.aper_chat_renewal.entity.ChatRoom;
+import aper.aper_chat_renewal.entity.UserReadTracking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface UserReadTrackingRepository extends JpaRepository<UserReadTracking,Long> {

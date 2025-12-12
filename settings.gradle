@@ -1,2 +1,3 @@
 rootProject.name = 'aper_chat_renewal'
 include 'libs:aper-library'
+includeBuild '../aper-submodule'
